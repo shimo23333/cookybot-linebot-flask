@@ -9,3 +9,9 @@ def home():
 @app.route('/about')
 def about():
     return 'About'
+
+@app.route('/line')
+def line():
+    return 'LINE TEST'
+
+app.run()
