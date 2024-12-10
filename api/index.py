@@ -13,5 +13,3 @@ def about():
 @app.route('/line')
 def line():
     return 'LINE TEST'
-
-app.run()
