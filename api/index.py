@@ -25,8 +25,8 @@ from linebot.v3.webhooks import (
 
 app = Flask(__name__)
 
-configuration = Configuration(access_token=os.getenv("LINE_CHANNEL_SECRET"))
-line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_TOKEN"))
+configuration = Configuration(access_token=os.getenv("LINE_CHANNEL_TOKEN"))
+line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
 
 @app.route("/")
 def home():
