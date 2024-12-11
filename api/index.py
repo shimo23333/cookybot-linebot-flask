@@ -12,12 +12,16 @@ from linebot.v3.messaging import (
     Configuration,
     ApiClient,
     MessagingApi,
+    MessagingApiBlob,
     ReplyMessageRequest,
-    TextMessage
+    TextMessage,
+    ImageMessage,
 )
 from linebot.v3.webhooks import (
     MessageEvent,
-    TextMessageContent
+    TextMessageContent,
+    ImageMessageContent,
+    
 )
 
 #改成新的了~~~(.evn)
@@ -72,7 +76,24 @@ def line_handler_message(event):
                     messages=[TextMessage(text=event.message.text)] 
                 )
             )
-                
+             
+#run 自動回應使用者傳送的圖片
+@line_handler.add(MessageEvent, message=ImageMessageContent)
+def line_handler_message(event):
+    with ApiClient(configuration) as api_client:
+        
+        #line_bot_blob_api = MessagingApiBlob(api_client)
+        #message_content = line_bot_blob_api.get_message_content(message_id=event.message.id)
+        
+        line_bot_api = MessagingApi(api_client)
+        line_bot_api.reply_message_with_http_info(
+            ReplyMessageRequest(
+                reply_token=event.reply_token,
+                messages=[TextMessage(text="收到圖片了")] 
+            )
+        )
+
+            
 
 if __name__ == "__main__":
     app.run()
