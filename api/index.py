@@ -1,5 +1,4 @@
 from flask import Flask, request, abort
-from dotenv import load_dotenv
 import os
 
 
@@ -23,14 +22,15 @@ from linebot.v3.webhooks import (
 
 #改成新的了~~~(.evn)
 #需要有 官方帳號的 TOKEN 和 SECRET
-load_dotenv()
-LINE_CHANNEL_SECRET = os.getenv("LINE_CHANNEL_SECRET")
-LINE_CHANNEL_TOKEN = os.getenv("LINE_CHANNEL_TOKEN")
 
 app = Flask(__name__)
 
-configuration = Configuration(access_token=LINE_CHANNEL_SECRET)
-handler = WebhookHandler(LINE_CHANNEL_TOKEN)
+configuration = Configuration(access_token=os.getenv("LINE_CHANNEL_SECRET"))
+line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_TOKEN"))
+
+@app.route("/")
+def home():
+    return "Hello world"
 
 
 #LINE 官方帳號的 webhook 網址輸入後，的驗證回傳函示。略過
@@ -45,7 +45,7 @@ def callback():
 
     # handle webhook body
     try:
-        handler.handle(body, signature)
+        line_handler.handle(body, signature)
     except InvalidSignatureError:
         app.logger.info("Invalid signature. Please check your channel access token/channel secret.")
         abort(400)
@@ -53,16 +53,26 @@ def callback():
     return 'OK'
 
 #run 自動回應使用者輸入的文字
-@handler.add(MessageEvent, message=TextMessageContent)
-def handle_message(event):
+@line_handler.add(MessageEvent, message=TextMessageContent)
+def line_handler_message(event):
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
-        line_bot_api.reply_message_with_http_info(
-            ReplyMessageRequest(
-                reply_token=event.reply_token,
-                messages=[TextMessage(text=event.message.text)]
+        
+        if event.message.text == "先度瑞拉":
+            line_bot_api.reply_message_with_http_info(
+                ReplyMessageRequest(
+                    reply_token=event.reply_token,
+                    messages=[TextMessage(text="再度你媽")]
+                )
             )
-        )
+        else:
+            line_bot_api.reply_message_with_http_info(
+                ReplyMessageRequest(
+                    reply_token=event.reply_token,
+                    messages=[TextMessage(text=event.message.text)] 
+                )
+            )
+                
 
 if __name__ == "__main__":
     app.run()
