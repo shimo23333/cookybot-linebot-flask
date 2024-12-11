@@ -16,6 +16,7 @@ from linebot.v3.messaging import (
     ReplyMessageRequest,
     TextMessage,
     ImageMessage,
+    StickerMessage,
 )
 from linebot.v3.webhooks import (
     MessageEvent,
@@ -85,7 +86,13 @@ def line_handler_message(event):
         #line_bot_blob_api = MessagingApiBlob(api_client)
         #message_content = line_bot_blob_api.get_message_content(message_id=event.message.id)
         
-        
+        # line_bot_api = MessagingApi(api_client)
+        # line_bot_api.reply_message_with_http_info(
+        #     ReplyMessageRequest(
+        #         reply_token=event.reply_token,
+        #         messages=[TextMessage(text="收到圖片了")] 
+        #     )
+        # )
         line_bot_api = MessagingApi(api_client)
         line_bot_api.reply_message_with_http_info(
             ReplyMessageRequest(
