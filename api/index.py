@@ -87,23 +87,17 @@ def line_handler_message(event):
         #message_content = line_bot_blob_api.get_message_content(message_id=event.message.id)
         
         line_bot_api = MessagingApi(api_client)
-        line_bot_api.reply_message_with_http_info(
-            ReplyMessageRequest(
-                reply_token=event.reply_token,
-                messages=[TextMessage(text="收到圖片了")] 
+        line_bot_api.reply_message_with_http_info( #回傳訊息的功能
+            ReplyMessageRequest( #建立一個回傳訊息物件
+                reply_token=event.reply_token, #這次溝通的密碼
+                messages=[ #訊息的內容(多個)
+                    TextMessage(text="收到圖片了1"),
+                    TextMessage(text="收到圖片了2"),
+                    StickerMessage(package_id='1', sticker_id='2'),
+                ] 
             )
         )
-        line_bot_api = MessagingApi(api_client)
-        line_bot_api.reply_message_with_http_info(
-            ReplyMessageRequest(
-                reply_token=event.reply_token,
-                messages=[StickerMessage(
-                    package_id='1',
-                    sticker_id='2')
-                ]
-            )
-        )
-
+        
             
 
 if __name__ == "__main__":
