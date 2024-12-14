@@ -23,9 +23,7 @@ class LineBot:
 
     def getHandler(self): 
         return self.line_handler
-        
-    def getConfig(self):
-        return self.configuration
+    
     #接收到使用者輸入的文字
     def handler_message(self, event):
         with ApiClient(self.configuration) as api_client:
@@ -56,14 +54,15 @@ class LineBot:
     def handler_image(self,event):
         with ApiClient(self.configuration) as api_client:
             message_id = event.message.id
-            save_path=save_line_upload_image(message_id, self.token)
-
+            base64_image=save_line_upload_image(message_id, self.token)
+            # print(save_path)
             
-            labels = self.magic.identify_ingredients(save_path)
+            labels = self.magic.identify_ingredients(base64_image)
             recipe=self.magic.generate_recipe(labels)
             image=self.magic.generate_dinner_image(recipe)
             
             messages=[
+                # TextMessage(text="DDD")
                 TextMessage(text=labels),
                 TextMessage(text=recipe),
                 ImageMessage(

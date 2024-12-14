@@ -1,6 +1,6 @@
-from api.utils import allowed_file, save_upload_image
+from api.utils import allowed_file
 from flask import jsonify
-# from utils import allowed_file, save_upload_image  # 匯入 Flask 框架，request 用於處理請求，abort 用於中止請求，jsonify 用於回應 JSON 格式資料
+import base64
 
 class NormalRequest:
     def __init__(self, magic):
@@ -31,9 +31,9 @@ class NormalRequest:
         
         # 如果檔案有效並且是允許的格式，則儲存檔案
         if file and allowed_file(file.filename):
-            filepath=save_upload_image(file)
+            base64_image = base64.b64encode(file.read()).decode('utf-8')
             # 主要程式區
-            labels = self.magic.identify_ingredients(filepath)
+            labels = self.magic.identify_ingredients(base64_image)
             recipe=self.magic.generate_recipe(labels)
             image=self.magic.generate_dinner_image(recipe)
             # 回傳結果
