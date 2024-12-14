@@ -5,7 +5,7 @@ import string
 import requests
 
 # 設定圖片儲存的目錄
-UPLOAD_FOLDER = 'uploads'  # 這個資料夾可以是你的應用所在目錄中的 'uploads'
+UPLOAD_FOLDER = '/tmp/uploads'  # 這個資料夾可以是你的應用所在目錄中的 'uploads'
 if not os.path.exists(UPLOAD_FOLDER):  # 如果目錄不存在，則創建它
     os.makedirs(UPLOAD_FOLDER)
 
