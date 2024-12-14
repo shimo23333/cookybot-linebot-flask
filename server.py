@@ -72,6 +72,6 @@ def line_upload_image(event):
 
 # 如果此檔案是主程式運行，啟動 Flask 應用
 if __name__ == '__main__':
-    print('ready!!')
+    print('ready!!!')
     # app.run(debug=True)  # 開啟 Flask 開發模式(debug=True)，可以即時看到錯誤並重啟應用
     app.run()
