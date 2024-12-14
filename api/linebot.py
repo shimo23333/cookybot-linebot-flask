@@ -18,6 +18,8 @@ from linebot.v3.messaging import (
     StickerMessage,
     # ImageSendMessage
 )
+from linebot.models import ImageSendMessage
+
 from utils import allowed_file, save_upload_image
 
 class LineBot:
@@ -30,23 +32,36 @@ class LineBot:
     def getHandler(self): 
         return self.line_handler
         
+    def getConfig(self):
+        return self.configuration
     #接收到使用者輸入的文字
     def handler_message(self, event):
         with ApiClient(self.configuration) as api_client:
 
             # 餵給openAI
-            openAiResponse =  self.magic.generate_recipe(event.message.text)
+            # openAiResponse =  self.magic.generate_recipe(event.message.text)
+            image_url = 'https://cdn.pixabay.com/photo/2015/10/01/17/17/car-967387_1280.png'  # 設定你要回應的圖片 URL
+            preview_url = 'https://cdn.pixabay.com/photo/2015/10/01/17/17/car-967387_1280.png'  # 設定圖片預覽圖 URL
+            messages = [
+                TextMessage(text='hhhh3'),  # 這是你要回應的文字訊息
+                ImageSendMessage(original_content_url=image_url, preview_image_url=preview_url)  # 圖片回應
+            ]
             
             # 傳送文字回應
             line_bot_api = MessagingApi(api_client)
             line_bot_api.reply_message_with_http_info(
                 ReplyMessageRequest(
                     reply_token=event.reply_token,
-                    messages=[TextMessage(text=openAiResponse)] 
+                    messages=messages
+                    
+                    # [
+                    #     # TextMessage(text=openAiResponse),
+                    #     TextMessage(text='hhhh'),
+                    #     ImageSendMessage(original_content_url=image_url, preview_image_url=preview_url)
+                    # ] 
                 )
             )
-            
-
+        
              
     # 接收到使用者輸入的圖片
     def handler_image(self, event):

@@ -1,6 +1,3 @@
-from api.linebot import LineBot
-from api.magic import RecipeGenerator
-from api.normal import NormalRequest
 from flask import Flask, request, abort, jsonify  # 匯入 Flask 框架，request 用於處理請求，abort 用於中止請求，jsonify 用於回應 JSON 格式資料
 import os  # 用於處理系統相關的操作（這裡似乎未使用到）
 from linebot.v3 import (
@@ -13,19 +10,14 @@ from linebot.v3.messaging import (
     Configuration,
     ApiClient,
     MessagingApi,
-    MessagingApiBlob,
     ReplyMessageRequest,
     TextMessage,
-    ImageMessage,
-    StickerMessage,
-    # ImageSendMessage
 )
 from linebot.models import ImageSendMessage
 from dotenv import load_dotenv
 from linebot.v3.webhooks import (
     MessageEvent,
     TextMessageContent,
-    ImageMessageContent,
 )
 from linebot.v3.exceptions import (
     InvalidSignatureError
@@ -33,24 +25,10 @@ from linebot.v3.exceptions import (
 
 load_dotenv()
 app = Flask(__name__)  # 創建一個 Flask 應用實例
-magic = RecipeGenerator(os.getenv("OPENAI_API_KEY"))
-line=LineBot(os.getenv("LINE_CHANNEL_TOKEN"),os.getenv("LINE_CHANNEL_SECRET"),magic)
-normal=NormalRequest(magic)
-line_handler=line.getHandler()
 
-# 根路由，當用戶訪問 '/' 時返回 "Hello world"
-@app.route("/")
-def home():
-    return "Hello 你好world"
-
-# 設定一個處理 POST 請求的路由，路徑為 '/message'
-@app.route('/message', methods=['POST']) 
-def api_receive_message():
-    return normal.handler_message(request)
-
-@app.route('/upload', methods=['POST'])
-def api_upload_image():
-    return normal.handler_image(request)
+# LINE 密鑰
+configuration = Configuration(access_token=os.getenv("LINE_CHANNEL_TOKEN"))
+line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
 
 # Line 串接區
 #LINE 官方帳號的 webhook 網址輸入後，的驗證回傳函示。略過
@@ -62,7 +40,7 @@ def callback():
 
     # get request body as text
     body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
+    # app.logger.info("Request body: " + body)
     # handle webhook body
     try:
         line_handler.handle(body, signature)
@@ -75,26 +53,27 @@ def callback():
 @line_handler.add(MessageEvent, message=TextMessageContent)
 def line_receive_message(event):
     # line.handler_message(event)
-    configuration=line.getConfig()
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
-        image_url= preview_url = 'https://cdn.pixabay.com/photo/2015/10/01/17/17/car-967387_1280.png'  # 設定你要回應的圖片 URL
+        image_url= 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png'  # 設定你要回應的圖片 URL
+        img_message=ImageSendMessage(original_content_url=image_url, preview_image_url=image_url)  # 圖片回應
+        text=TextMessage(text='hhhh2')
         messages = [
-                TextMessage(text='hhhh'),  # 這是你要回應的文字訊息
-                StickerMessage(package_id='1', sticker_id='2'),
-                # ImageSendMessage(original_content_url=image_url, preview_image_url=preview_url)  # 圖片回應
+                # img_message, # 問題在這裡, 一直無法運行
+                text
         ]
-        
-        line_bot_api.reply_message_with_http_info( #回傳訊息的功能
-            ReplyMessageRequest( #建立一個回傳訊息物件
-                reply_token=event.reply_token, #這次溝通的密碼
-                messages=messages
+        # print(image)
+        try:
+            line_bot_api.reply_message_with_http_info( #回傳訊息的功能
+                ReplyMessageRequest( #建立一個回傳訊息物件
+                    reply_token=event.reply_token, #這次溝通的密碼
+                    messages=messages
+                )
             )
-        )
+        except Exception  as e:
+            app.logger.error(f"Error sending message: {e}")
+            return jsonify({"error": "Failed to send message"}), 500
 
-@line_handler.add(MessageEvent, message=ImageMessageContent)
-def line_upload_image(event):
-    line.handler_image(event)
 
 
 # 如果此檔案是主程式運行，啟動 Flask 應用
