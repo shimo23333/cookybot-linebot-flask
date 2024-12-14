@@ -1,9 +1,9 @@
 # from api.linebot import LineBot
 # from api.magic import RecipeGenerator
 # from api.normal import NormalRequest
-from magic import RecipeGenerator
-from linebot_handler import LineBot
-from normal_handler import NormalRequest
+from api.magic import RecipeGenerator
+from api.linebot_handler import LineBot
+from api.normal_handler import NormalRequest
 from flask import Flask, request, abort, jsonify  # 匯入 Flask 框架，request 用於處理請求，abort 用於中止請求，jsonify 用於回應 JSON 格式資料
 import os  # 用於處理系統相關的操作（這裡似乎未使用到）
 from linebot.v3 import (

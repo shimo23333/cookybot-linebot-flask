@@ -11,7 +11,7 @@ from linebot.v3.messaging import (
     ImageMessage,
     ImageMessage
 )
-from utils import  save_line_upload_image
+from api.utils import  save_line_upload_image
 
 class LineBot:
     def __init__(self, LINE_CHANNEL_TOKEN,LINE_CHANNEL_SECRET,magic):
