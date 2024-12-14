@@ -1,7 +1,3 @@
-import sys
-
-print(sys.path)
-
 from api.magic import RecipeGenerator
 from api.linebot_handler import LineBot
 from api.normal_handler import NormalRequest
