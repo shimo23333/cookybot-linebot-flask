@@ -1,5 +1,4 @@
-from api import magic
-from flask import Flask, request, abort, jsonify
+from flask import jsonify
 from utils import allowed_file, save_upload_image  # 匯入 Flask 框架，request 用於處理請求，abort 用於中止請求，jsonify 用於回應 JSON 格式資料
 
 class NormalRequest:

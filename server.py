@@ -9,17 +9,6 @@ from linebot.v3 import (
 from linebot.v3.exceptions import (
     InvalidSignatureError
 )
-from linebot.v3.messaging import (
-    Configuration,
-    ApiClient,
-    MessagingApi,
-    MessagingApiBlob,
-    ReplyMessageRequest,
-    TextMessage,
-    ImageMessage,
-    StickerMessage,
-    # ImageSendMessage
-)
 from linebot.models import ImageSendMessage
 from dotenv import load_dotenv
 from linebot.v3.webhooks import (
@@ -62,7 +51,7 @@ def callback():
 
     # get request body as text
     body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
+    # app.logger.info("Request body: " + body)
     # handle webhook body
     try:
         line_handler.handle(body, signature)
@@ -74,23 +63,7 @@ def callback():
 
 @line_handler.add(MessageEvent, message=TextMessageContent)
 def line_receive_message(event):
-    # line.handler_message(event)
-    configuration=line.getConfig()
-    with ApiClient(configuration) as api_client:
-        line_bot_api = MessagingApi(api_client)
-        image_url= preview_url = 'https://cdn.pixabay.com/photo/2015/10/01/17/17/car-967387_1280.png'  # 設定你要回應的圖片 URL
-        messages = [
-                TextMessage(text='hhhh'),  # 這是你要回應的文字訊息
-                StickerMessage(package_id='1', sticker_id='2'),
-                # ImageSendMessage(original_content_url=image_url, preview_image_url=preview_url)  # 圖片回應
-        ]
-        
-        line_bot_api.reply_message_with_http_info( #回傳訊息的功能
-            ReplyMessageRequest( #建立一個回傳訊息物件
-                reply_token=event.reply_token, #這次溝通的密碼
-                messages=messages
-            )
-        )
+    line.handler_message(event)
 
 @line_handler.add(MessageEvent, message=ImageMessageContent)
 def line_upload_image(event):

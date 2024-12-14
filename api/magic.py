@@ -18,6 +18,7 @@ class RecipeGenerator:
     def identify_ingredients(self, image_path):
         """使用gpt-4o-mini 辨識圖片中的食材"""
         try:
+            print("食材辨識中...")
             base64_image=self.encode_image(image_path)
             text= {
                 "type": "text",
@@ -43,6 +44,7 @@ class RecipeGenerator:
     def generate_recipe(self, ingredients):
         """使用 OpenAI API 生成食譜"""
         try:
+            print("生成食譜中...")
             recipe_prompt = f"請根據這些食材：{ingredients}，生成一份晚餐食譜，200字以內簡短介紹。"
 
             response_recipe = self.openai_client.chat.completions.create(
@@ -61,6 +63,7 @@ class RecipeGenerator:
     def generate_dinner_image(self, recipe_text):
         """使用 OpenAI API 生成食物圖片"""
         try:
+            print("生成食物圖片中...")
             image_prompt = f"根據這份食譜，畫出一道美味的晚餐。食譜內容：{recipe_text}"
 
             response_image = self.openai_client.images.generate(
