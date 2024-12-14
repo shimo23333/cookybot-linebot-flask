@@ -82,7 +82,8 @@ class RecipeGenerator:
         """使用 OpenAI API 生成食物圖片"""
         try:
             print("生成食物圖片中...")
-            image_prompt = f"根據這份食譜，畫出一道美味的晚餐。食譜內容：{recipe_text}"
+            style="Create a hyper-realistic, detailed illustration with soft lighting and natural color tones. The artwork should emphasize vibrant colors, clear textures, and fine details, showcasing a clean and fresh aesthetic. The style is modern yet artistic, resembling high-quality still-life photography, with a minimalistic and elegant composition."
+            image_prompt = f"{style}, 根據這份食譜，畫出一道美味的晚餐。食譜內容：{recipe_text}"
 
             response_image = self.image_llm_client.images.generate(
                 model="dall-e-3",
