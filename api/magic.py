@@ -82,7 +82,8 @@ class RecipeGenerator:
         """使用 OpenAI API 生成食物圖片"""
         try:
             print("生成食物圖片中...")
-            style="Create a hyper-realistic, detailed illustration with soft lighting and natural color tones. The artwork should emphasize vibrant colors, clear textures, and fine details, showcasing a clean and fresh aesthetic. The style is modern yet artistic, resembling high-quality still-life photography, with a minimalistic and elegant composition."
+            style="Capture a realistic and inviting flat-lay shot of a variety of colorful dishes served in mismatched round bowls and plates, as if freshly prepared for a shared meal. Arrange the items in an organic, slightly imperfect composition to create a natural, casual vibe. Incorporate warm tones like orange, yellow, and red with cool-toned accents such as dark tablecloths, green garnishes, and scattered spices or herbs for added authenticity. Use soft, diffused natural light or simulated natural light from the top-left corner to highlight the textures of the food, avoiding harsh shadows while maintaining gentle gradients for depth. Enhance realism with small, natural details like crumbs, spills, or utensils slightly out of place. Add textured fabric napkins, rustic serving boards, or subtle imperfections in the table surface for a cozy, lived-in atmosphere."
+            # style="Create a hyper-realistic, detailed illustration with soft lighting and natural color tones. The artwork should emphasize vibrant colors, clear textures, and fine details, showcasing a clean and fresh aesthetic. The style is modern yet artistic, resembling high-quality still-life photography, with a minimalistic and elegant composition."
             image_prompt = f"{style}, 根據這份食譜，畫出一道美味的晚餐。食譜內容：{recipe_text}"
 
             response_image = self.image_llm_client.images.generate(
