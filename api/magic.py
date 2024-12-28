@@ -83,8 +83,8 @@ class RecipeGenerator:
         try:
             print("生成食物圖片中...")
             style=(
-                "ultra realistic food photography hyper detail, cinematic lighting,  Canon EOS R3, nikon, f/1.4, ISO 200, 1/160s, 8K, RAW, unedited, symmetrical balance, in-frame, 8K",
-                "no painting, no extra ingredients, no blurry,no  bad proportions"
+                "ultra-realistic food photography hyper detail,photorealistic,  cinematic lighting,macro photography, DSLR-quality, shallow depth of field, bokeh effect, Canon EOS R3, nikon, f/1.4, ISO 200, 1/160s, 8K, RAW, unedited, symmetrical balance, in-frame, 8K",
+                "no painting, no extra ingredients, no blurry, no bad proportions,no cartoon, no illustration, no 2D, no anime, no artstation, no painting, sketch, no plastic texture, no unrealistic materials, no over-saturation, no 3D render, no CGI, no low-resolution,no over-sharpened, no flat lighting,no fake reflections, no overexposed, no underexpose, no color grading, no vignette, no heavy filters, no distracting background, no random objects, no floating item,  artificial colors, no over-saturated,  no unrealistic details, no painting-like, no extra reflections, no bad anatomy, no low detail."
             )
 
             # style="Capture a cozy and inviting food scene with a rustic and authentic atmosphere. Use warm, diffused lighting coming from the left side to mimic natural light streaming through a window, creating soft, realistic shadows. Ensure the light highlights the textures and small details, such as glossy surfaces or subtle imperfections, to enhance a sense of realism. Maintain a dark, textured backdrop with hints of wear, like scratches or natural wood grain, to add depth and an organic feel. The overall style should evoke a lived-in, homely setting, with balanced highlights and shadows that emphasize authenticity and visual warmth."
